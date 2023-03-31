@@ -21,7 +21,7 @@ const colornegro = "negro";
 const colorblanco = "blanco";
 const colorpurpura = "purpura";
 
-var total = 0;
+let total = 0;
 
 // aqui declaramos la funcion COMPRA DE PINTURA, donde se encuentra la seleccion de Marca, Color y de cuanto pagaraXLitros, puede seleccionar los que usted desee. En Pinturerias Don Pepe lo tenemos!
 //esta funcion tambien tiene un parametro (num1) con la cual le ponemos un orden a las compras que va realizando
@@ -68,22 +68,35 @@ function comprarPintura(num1){
                     return pagara;
                 }
     };
-
-    //llamamos a las funciones de  seleccion de marca, color y cuanto de pagaraxlitro
-    let marca = selecionarMarca();
-    let color = selecionarColor();
+    //aqui declaro funcion de bucles defencivos
+    const buclesDefensivos =()=>{
+        //bucle para evitar return de datos negativos y la compra minima es un litro.
+        while(litros<1){
+            litros = litrosCorrec();
+        }
+        //bucle para evitar return de datos NaN
+        while((isNaN(litros))){
+            litros = litrosCorrec();
+        }
+    }
+    //declaramos una funcion para la cantidad de litros que desea el cliente
     function litrosCorrec () {
         let litros = Number(prompt(`${marca} - ${color}\n¿Cuántos litros necesita?`));
         return litros;
     }
+// a partir de aqui llamamos a las funciones declaradas
+    //llamamos a las funciones de  seleccion de marca, color.
+    let marca = selecionarMarca();
+    let color = selecionarColor();
+    //llamamos a la funcion de los litros que desea
     let litros = litrosCorrec()
-    //bucle para evitar return de datos NaN
-    while(isNaN(litros)){
-        litros = litrosCorrec();
-    }
-    
+    //llamamos a la funcion de bucles defensivos
+    buclesDefensivos()
+    //llamamos a la funcion de cuanto pagaraxlitro que pidio.
     let pagaraXLitro = pagaraPorLitro();
+    //llebamos la cuenta de el total sin iva incluido
     total = total + pagaraXLitro;
+
     let compraste = `${num1} Marca: ${marca} - Color: ${color} - Litros: ${litros} - Subtotal: $${pagaraXLitro}\n\nTotal: $${total} sin IVA incluido`
     //Nuestra funcion retorna un string con todos los datos recolectados
     return compraste;
@@ -113,7 +126,7 @@ const masIva = ()=> {
     return totalMasIva;
 }
 
-
+//y todo converge en este "if"
 if (comprar==true){
     bucleDeCompra();
     let apagarIva = iva();
