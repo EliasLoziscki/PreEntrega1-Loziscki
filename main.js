@@ -1,6 +1,14 @@
 //en pinturerias Don Pepe somos tan amable que le preguntamos el nombre a todos nuestros clientes para darles la bienvenida 😁
-let nombre = prompt("Buenas tardes. ¿Cúal es su nombre?")
-
+//funcion de debes colocar un nombre para proseguir, evita dato null.
+const buenNombre = ()=>{
+    let nombre = prompt("Buenas tardes. ¿Cúal es su nombre?")
+    if (nombre != null){
+        return nombre;
+    }else {
+        return buenNombre()
+    }
+}
+let nombre = buenNombre()
 
 let comprar = confirm(`Bienvenido a pinturerías Don Pepe estiamd@ ${nombre}.\n¿Deseas realizar una comprar?`);
 
@@ -64,7 +72,16 @@ function comprarPintura(num1){
     //llamamos a las funciones de  seleccion de marca, color y cuanto de pagaraxlitro
     let marca = selecionarMarca();
     let color = selecionarColor();
-    let litros = Number(prompt(`${marca} - ${color}\n¿Cuántos litros necesita?`));
+    function litrosCorrec () {
+        let litros = Number(prompt(`${marca} - ${color}\n¿Cuántos litros necesita?`));
+        return litros;
+    }
+    let litros = litrosCorrec()
+    //bucle para evitar return de datos NaN
+    while(isNaN(litros)){
+        litros = litrosCorrec();
+    }
+    
     let pagaraXLitro = pagaraPorLitro();
     total = total + pagaraXLitro;
     let compraste = `${num1} Marca: ${marca} - Color: ${color} - Litros: ${litros} - Subtotal: $${pagaraXLitro}\n\nTotal: $${total} sin IVA incluido`
